@@ -2,20 +2,17 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
-import { Icon } from '@iconify/react';
 import {
-  Building2, ShieldCheck, ArrowRight, UserCircle, ChevronLeft, ChevronRight,
+  ArrowRight, UserCircle
 } from "lucide-react";
 import {
-  HeaderSm, HeaderMd, BodyLg, BodyMd, SubheaderMd
+  HeaderSm, HeaderMd, BodyLg, BodyMd
 } from '@/app/typography';
 
-import { FACES, GAME_FEATURES, storyData } from './game_data';
+import { FACES, storyData } from './game_data';
 import { Reveal } from '@/components/reveal';
 
 import { StructuralFeaturesSection } from "@/components/structural_features_section";
-
-// import { CharacterCard } from "@/components/character_card";
 
 // ─── MAIN COMPONENT EXPORT ───
 export default function Page() {
@@ -27,7 +24,6 @@ export default function Page() {
   // Layout Animation UI States
   const [activeFace, setActiveFace] = useState(0);
   const [rotation, setRotation] = useState(0);
-  const [scrolled, setScrolled] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [logoTilt, setLogoTilt] = useState({ rotateX: 0, rotateY: 0 });
   const logoRef = useRef<HTMLImageElement>(null);
@@ -37,7 +33,6 @@ export default function Page() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 40);
           setScrollY(window.scrollY);
           ticking = false;
         });
@@ -47,12 +42,6 @@ export default function Page() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const rotate = (direction: 'left' | 'right') => {
-    const newFace = direction === 'right' ? (activeFace + 1) % 3 : (activeFace + 2) % 3;
-    setActiveFace(newFace);
-    setRotation(prev => direction === 'right' ? prev - 120 : prev + 120);
-  };
 
   const handleHeroMouseMove = (e: React.MouseEvent) => {
     if (!logoRef.current) return;

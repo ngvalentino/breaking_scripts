@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* GLOBAL SCROLL ANIMATION EFFECTS */
+html, body { 
+  background-color: #F4F5E1; 
+  scroll-behavior: smooth !important; 
+}
+
+@keyframes cloudFloat { 
+  0%, 100% { transform: translateX(0px); } 
+  50% { transform: translateX(25px); } 
+}
+
+@keyframes cloudFloatReverse { 
+  0%, 100% { transform: translateX(0px); } 
+  50% { transform: translateX(-20px); } 
+}
+
+.float-animation { 
+  animation: cloudFloat 12s ease-in-out infinite; 
+}
+
+.float-animation-reverse { 
+  animation: cloudFloatReverse 15s ease-in-out infinite; 
+}
+
+.float-animation-slow { 
+  animation: cloudFloat 18s ease-in-out infinite; 
+}
+
+/* 🌐 Base Setup Overrides */
+@layer base {
+  body {
+    @apply m-0 p-0 overflow-x-hidden antialiased;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #F1F8E9; /* Switched to that soft light organic green canvas background from ElBNB */
+    color: #1C1917;            /* Dark stone text for crisp readability */
+  }
+}
+
+/* 📊 Custom Game Element Selectors (Kept from your file with Tailwind enhancements) */
+#game-container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px; /* Slightly smoother roundness */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+}
+
+.progress-bar {
+  background: #E6E5E3; /* Custom soft grey track background */
+  border-radius: 9999px; /* Pill style rounded container */
+  height: 16px;
+  width: 100%;
+  margin-bottom: 12px;
+  overflow: hidden; /* Keeps the inner color bar inside the rounded corners */
+}
+
+/* 📈 Social Approval Bar */
+#sa-bar {
+  background: #2563EB; /* Premium blue accent */
+  height: 100%;
+  width: 50%;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother spring-like feeling */
+}
+
+/* 🌿 Authenticity Bar */
+#ae-bar {
+  background: #16A34A; /* Rich emerald green accent */
+  height: 100%;
+  width: 50%;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 🔘 Interactive Decision Buttons */
+.choice-btn {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  margin: 12px 0;
+  background: #F5F5F4;
+  border: 1px solid #E7E5E4;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.choice-btn:hover {
+  background: #E7E5E4;
+  transform: translateX(4px); /* Subtle indentation pop effect when hovered */
+}

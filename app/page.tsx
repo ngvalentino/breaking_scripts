@@ -224,21 +224,21 @@ export default function Page() {
               <div className="h-px bg-white/10 mx-8 md:mx-20" />
 
               {/* 3D PROFILE SELECTION CAROUSEL ENGINE */}
-                <section id="roles" className="py-28 px-6 max-w-6xl mx-auto space-y-10">
+                <section id="roles" className="py-14 md:py-28 px-4 md:px-6 max-w-6xl mx-auto space-y-6 md:space-y-10">
                 <Reveal>
-                    <div className="text-center space-y-4 max-w-xl mx-auto mb-6">
-                    <p className="text-[#bb3535] uppercase tracking-[0.2em] text-xs font-black">
+                    <div className="text-center space-y-3 max-w-xl mx-auto mb-4 md:mb-6">
+                    <p className="text-[#bb3535] uppercase tracking-[0.2em] text-[10px] md:text-xs font-black">
                         Available Script Listings
                     </p>
-                    <h2 className={`${HeaderMd} text-3xl md:text-5xl text-white`}>
+                    <h2 className={`${HeaderMd} text-2xl md:text-5xl text-white px-2`}>
                         Select Your Profile To Test
                     </h2>
                     </div>
                 </Reveal>
 
                 <Reveal delay={200}>
-                    {/* 💡 The container height is adjusted to 560px for compact, tight spacing */}
-                    <div className="relative h-[560px] w-full flex items-center justify-center overflow-hidden select-none">
+                    {/* 💡 The container height scales down to 500px on mobile viewports for tighter layout stability */}
+                    <div className="relative h-[500px] md:h-[560px] w-full flex items-center justify-center overflow-hidden select-none">
                     <div className="relative w-full max-w-4xl h-full flex items-center justify-center">
                         
                         {FACES.map((face, i) => {
@@ -263,10 +263,20 @@ export default function Page() {
                         if (isActive) zIndex = 30;
                         if (isLeft || isRight) zIndex = 20;
 
+                        // 📱 Dynamically calculated responsive positioning matrices to prevent edge-clipping on phones
+                        const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
                         let transformStyles = '';
-                        if (isActive) transformStyles = 'translateX(0%) scale(1) rotateY(0deg)';
-                        if (isLeft) transformStyles = 'translateX(-65%) scale(0.85) rotateY(25deg)';
-                        if (isRight) transformStyles = 'translateX(65%) scale(0.85) rotateY(-25deg)';
+                        if (isActive) {
+                            transformStyles = 'translateX(0%) scale(1) rotateY(0deg)';
+                        } else if (isLeft) {
+                            transformStyles = isMobile 
+                            ? 'translateX(-38%) scale(0.8) rotateY(20deg)' 
+                            : 'translateX(-65%) scale(0.85) rotateY(25deg)';
+                        } else if (isRight) {
+                            transformStyles = isMobile 
+                            ? 'translateX(38%) scale(0.8) rotateY(-20deg)' 
+                            : 'translateX(65%) scale(0.85) rotateY(-25deg)';
+                        }
 
                         return (
                             <div
@@ -278,20 +288,21 @@ export default function Page() {
                                 setActiveFace(i);
                                 }
                             }}
-                            className="absolute w-full max-w-xs h-[490px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer flex flex-col justify-between p-8 rounded-2xl border text-black backdrop-blur-sm bg-[#f4e08b] hover:bg-[#f4e08b]/80 group"
+                            // 🛠️ Reduced mobile width down to 280px and total height down to 440px for clean mobile ratios
+                            className="absolute w-[280px] md:w-full md:max-w-xs h-[430px] md:h-[490px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer flex flex-col justify-between p-5 md:p-8 rounded-2xl border text-black backdrop-blur-sm bg-[#f4e08b] hover:bg-[#f4e08b]/80 group"
                             style={{
                                 transform: transformStyles,
                                 zIndex: zIndex,
-                                boxShadow: isActive ? '0 25px 50px -12px rgba(187, 53, 53, 0.35)' : 'none',
+                                boxShadow: isActive ? '0 20px 40px -12px rgba(187, 53, 53, 0.35)' : 'none',
                                 borderColor: isActive ? '#bb3535' : 'rgba(255, 255, 255, 0.4)',
-                                opacity: isActive ? 1 : 0.55,
+                                opacity: isActive ? 1 : 0.45, // Dropped secondary asset opacities slightly for higher central clarity
                             }}
                             >
                             <div className={`absolute top-0 left-0 h-[3px] bg-[#bb3535] transition-all duration-500 rounded-t-2xl ${isActive ? 'w-full' : 'w-0 group-hover:w-1/3'}`} />
 
-                            <div className="space-y-4 flex flex-col items-center text-center w-full">
+                            <div className="space-y-3 md:space-y-4 flex flex-col items-center text-center w-full">
                                 {/* Profile Avatar Container */}
-                                <div className="relative w-24 h-24 rounded-full border-2 border-black/10 p-1 bg-white/40 overflow-hidden shadow-sm mt-2 flex items-center justify-center">
+                                <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-black/10 p-1 bg-white/40 overflow-hidden shadow-sm mt-1 flex items-center justify-center">
                                 <img 
                                     src={charImage} 
                                     alt={`${charName} configuration matrix`}
@@ -303,21 +314,21 @@ export default function Page() {
                                     }}
                                 />
                                 <div className="hidden w-full h-full items-center justify-center text-[#bb3535]/70">
-                                    <UserCircle className="w-12 h-12" />
+                                    <UserCircle className="w-10 h-10 md:w-12 md:h-12" />
                                 </div>
                                 </div>
 
-                                <div className="space-y-1.5 w-full">
-                                <span className="text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 bg-[#bb3535]/10 border border-[#bb3535]/30 text-[#bb3535] rounded-md inline-block">
+                                <div className="space-y-1 w-full">
+                                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest px-2 py-0.5 bg-[#bb3535]/10 border border-[#bb3535]/30 text-[#bb3535] rounded-md inline-block">
                                     {face.tag || "System Identity"}
                                 </span>
-                                <h3 className="text-2xl text-black font-black leading-tight tracking-tight mt-1">
+                                <h3 className="text-xl md:text-2xl text-black font-black leading-tight tracking-tight mt-0.5">
                                     {charName}
                                 </h3>
-                                <p className="text-black/50 text-[10px] uppercase font-mono tracking-widest">
+                                <p className="text-black/50 text-[9px] md:text-[10px] uppercase font-mono tracking-widest">
                                     {charArchetype}
                                 </p>
-                                <p className={`${BodyMd} text-black/70 text-xs leading-relaxed pt-2 px-1 max-w-xs mx-auto`}>
+                                <p className={`${BodyMd} text-black/70 text-[11px] md:text text-xs leading-relaxed pt-1 md:pt-2 px-1 max-w-xs mx-auto line-clamp-3 md:line-clamp-none`}>
                                     {charDescription}
                                 </p>
                                 </div>
@@ -334,13 +345,13 @@ export default function Page() {
                                 }
                                 setCurrentSceneId(charId);
                                 }}
-                                className={`w-full text-white rounded-xl py-4 text-xs uppercase tracking-wider font-mono font-bold flex justify-between px-5 transition-all duration-300 ${
+                                className={`w-full text-white rounded-xl py-3.5 md:py-4 text-[11px] md:text-xs uppercase tracking-wider font-mono font-bold flex justify-between px-4 md:px-5 transition-all duration-300 ${
                                 isActive 
                                     ? 'bg-[#bb3535] hover:bg-[#a32e2e] border border-transparent' 
-                                    : 'bg-black/5 hover:bg-black/10 border border-black/10'
+                                    : 'bg-black/5 hover:bg-black/10 border border-black/10 text-black/70'
                                 }`}
                             >
-                                <span>Rent Script Identity</span> <ArrowRight size={14} />
+                                <span>Rent Script Identity</span> <ArrowRight size={12} />
                             </Button>
                             </div>
                         );
